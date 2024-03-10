@@ -24,6 +24,6 @@ categorySchema.pre(['update', 'findOneAndUpdate', 'updateOne'], function(next) {
 });
 
 
-const CategoryModel = model('Catregory', categorySchema);
+const CategoryModel = model('Category', categorySchema);
 
 module.exports = CategoryModel;
