@@ -4,7 +4,7 @@ const CartController = {
     getCartForUser: async function(req, res) {
         try {
             const user = req.params. user;
-            const foundCart = await CartModel.findOne({ user: user });
+            const foundCart = await CartModel.findOne({ user: user }).populate("items.product");
 
             if(!foundCart) {
                 return res.json({ success: true, data: [] });
@@ -27,6 +27,9 @@ const CartController = {
             // Finding the cart associated with the user
             const foundCart = await CartModel.findOne({ user: user });
 
+
+
+
             // If the cart does not exist
             if (!foundCart) {
                 // Create a new cart and add the product to its items array
@@ -43,22 +46,31 @@ const CartController = {
                 return res.json({ success: true, data: newCart, message: "Product is added to cart" });
             }
 
+
+            //Deleting the item if it already exist
+            const deletedItem = await CartModel.findOneAndUpdate(
+                {user:user, "items.product": product},
+                { $pull: {items: {product: product} } },
+                { new: true }
+            )
+
             // If the cart already exists
             // Update the cart by pushing the new product to its items array
             const updatedCart = await CartModel.findOneAndUpdate(
                 { user: user },
                 { $push: { items: { product: product, quantity: quantity } } },
                 { new: true }
-            );
+            ).populate("items.product");
 
             // Return a success response with the updated cart data
-            return res.json({ success: true, data: updatedCart, message: "Product is added to cart" });
+            return res.json({ success: true, data: updatedCart.items, message: "Product is added to cart" });
         }
         catch (ex) {
             // If an error occurs, return a failure response
             return res.json({ success: false, message: "Error occurred while adding product to cart" });
         }
     },
+    
 
     removeFromCart: async function(req, res) {
         try {
@@ -68,9 +80,9 @@ const CartController = {
                 { $pull: { items: { product: product }}},
 
                 { new: true }
-            );
+            ).populate("items.product");
                 
-             return res.json({ success: true, data: updatedCart, message: "Product is removed from the cart" });
+             return res.json({ success: true, data: updatedCart.items, message: "Product is removed from the cart" });
         }
         catch (ex){
             return res.json({ success: false, message: ex });

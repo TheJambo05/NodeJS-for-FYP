@@ -1,45 +1,42 @@
 const UserModel = require('./../models/user_model');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const UserController = {
-
-    createAccount: async function (req, res) {
+    createAccount: async function(req, res) {
         try {
             const userData = req.body;
             const newUser = new UserModel(userData);
             await newUser.save();
 
             return res.json({ success: true, data: newUser, message: "User Created!" });
-        }
-        catch(ex) {
-            return res.json ({ success: false, message: ex });
+        } catch (ex) {
+            return res.json({ success: false, message: ex });
         }
     },
-
-
-    //for signIn
 
     signIn: async function(req, res) {
         try {
             const { email, password } = req.body;
 
-            const foundUser = await UserModel. findOne({ email: email});
-            if(!foundUser) {
+            const foundUser = await UserModel.findOne({ email: email });
+            if (!foundUser) {
                 return res.json({ success: false, message: "User not found!" });
             }
 
             const passwordsMatch = bcrypt.compareSync(password, foundUser.password);
-            if(!passwordsMatch) {
-                return res.json({ success: false, message: "Incorrect Password!"});
-            } 
+            if (!passwordsMatch) {
+                return res.json({ success: false, message: "Incorrect Password!" });
+            }
 
-            return res.json({ success: true, data: foundUser });
-        }
-        catch(ex){
+            // Generate JWT token
+            const token = jwt.sign({ email: foundUser.email, isadmin: foundUser.isadmin }, 'ijhfdrestryyuoiyduert7uih', { expiresIn: '1h' });
+
+            return res.json({ success: true, token: token, data: foundUser });
+        } catch (ex) {
             return res.json({ success: false, message: ex });
         }
     }
-
 };
 
 module.exports = UserController;
