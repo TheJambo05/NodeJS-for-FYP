@@ -1,7 +1,7 @@
 const {Schema, model} = require('mongoose');
 
 const productSchema = new Schema ({
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true},
+    // user: { type: Schema.Types.ObjectId, ref: 'User', required: true},
     category: { type: Schema.Types.ObjectId, ref: 'Category', required: true},
     title: {type: String, required: [true, 'title is required']},
     description: { type: String, default: "" },
@@ -11,7 +11,7 @@ const productSchema = new Schema ({
     createdOn: { type: Date}
 });
 
-productSchema.pre('save', function(next) {
+productSchema.pre('save', function(next) {  
     this.updatedOn = new Date();
     this.createdOn = new Date();
 

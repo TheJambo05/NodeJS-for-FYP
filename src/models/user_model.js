@@ -10,7 +10,6 @@ const userSchema = new Schema({
     phoneNumber: { type: String, default: "" },
     address: { type: String, default: "" },
     city: { type: String, default: "" },
-    state: { type: String, default: "" },
     profileProgress: { type: Number, default: 0 },
     isadmin: { type: Boolean, default: false } // Added field to indicate admin status
 }, { timestamps: true });

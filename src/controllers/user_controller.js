@@ -11,7 +11,7 @@ const UserController = {
 
             return res.json({ success: true, data: newUser, message: "User Created!" });
         } catch (ex) {
-            return res.json({ success: false, message: ex });
+            return res.status(500).json({ success: false, message: ex.message });
         }
     },
 
@@ -21,12 +21,12 @@ const UserController = {
 
             const foundUser = await UserModel.findOne({ email: email });
             if (!foundUser) {
-                return res.json({ success: false, message: "User not found!" });
+                return res.status(404).json({ success: false, message: "User not found!" });
             }
 
             const passwordsMatch = bcrypt.compareSync(password, foundUser.password);
             if (!passwordsMatch) {
-                return res.json({ success: false, message: "Incorrect Password!" });
+                return res.status(401).json({ success: false, message: "Incorrect Password!" });
             }
 
             // Generate JWT token
@@ -34,9 +34,41 @@ const UserController = {
 
             return res.json({ success: true, token: token, data: foundUser });
         } catch (ex) {
-            return res.json({ success: false, message: ex });
+            return res.status(500).json({ success: false, message: ex.message });
         }
-    }
+    },
+
+    updateUser: async function(req, res) {
+        try {
+            const userId = req.params.id;
+            const updateData = req.body;
+
+            const updatedUser = await UserModel.findOneAndUpdate(
+                { _id: userId },
+                updateData,
+                { new: true }
+            );
+
+            if (!updatedUser) {
+                return res.status(404).json({ success: false, message: "User not found" });
+            }
+
+            return res.json({ success: true, data: updatedUser, message: "User updated successfully." });
+        } catch (ex) {
+            return res.status(500).json({ success: false, message: ex.message });
+        }
+    },
+
+    // signOut: async function(req, res) {
+    //     try {
+    //         // Perform any additional clean-up or logging tasks here
+    //         // For example, clear any related tokens or cookies
+
+    //         return res.json({ success: true, message: "User signed out successfully." });
+    //     } catch (ex) {
+    //         return res.status(500).json({ success: false, message: ex.message });
+    //     }
+    // }
 };
 
 module.exports = UserController;

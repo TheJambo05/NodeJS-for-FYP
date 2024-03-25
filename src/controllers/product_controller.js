@@ -4,7 +4,6 @@ const ProductController = {
     createProduct: async function(req, res) {
         try {
             const productData = req.body;
-
             const newProduct = new ProductModel(productData);
             await newProduct.save();
 
@@ -17,9 +16,9 @@ const ProductController = {
 
     fetchAllProducts: async function(_req, res) {
         try {
-            const products = await ProductModel.find();
-            return res.json ({ success: true, data: products})
-        }
+            const products = await ProductModel.find().sort({ createdOn: -1 });
+            return res.json({ success: true, data: products });
+        } 
         catch(ex) {
             return res.json({ success: false, message: ex });
         }
