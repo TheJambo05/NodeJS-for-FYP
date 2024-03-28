@@ -1,10 +1,10 @@
-const {Schema, model} = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const categorySchema = new Schema ({
-    title: {type: String, required: [true, 'title is required']},
+const categorySchema = new Schema({
+    title: { type: String, required: [true, 'title is required'] },
     description: { type: String, default: "" },
-    updatedOn: { type: Date},
-    createdOn: { type: Date}
+    updatedOn: { type: Date },
+    createdOn: { type: Date }
 });
 
 categorySchema.pre('save', function(next) {
@@ -22,7 +22,6 @@ categorySchema.pre(['update', 'findOneAndUpdate', 'updateOne'], function(next) {
 
     next();
 });
-
 
 const CategoryModel = model('Category', categorySchema);
 

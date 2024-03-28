@@ -11,16 +11,17 @@ const userSchema = new Schema({
     address: { type: String, default: "" },
     city: { type: String, default: "" },
     profileProgress: { type: Number, default: 0 },
-    isadmin: { type: Boolean, default: false } // Added field to indicate admin status
-}, { timestamps: true });
+    updatedOn: { type: Date },
+    createdOn: { type: Date }
+});
 
 userSchema.pre('save', function(next) {
     this.id = uuid.v1();
     this.updatedOn = new Date();
     this.createdOn = new Date();
 
-    // Hash password
-    const salt = bcrypt.genSaltSync(10);
+    // Hash the password
+    const salt = bcrypt.genSaltSync(10); 
     const hash = bcrypt.hashSync(this.password, salt);
     this.password = hash;
 

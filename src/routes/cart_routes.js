@@ -6,4 +6,3 @@ CartRoutes.post("/", CartController.addToCart);
 CartRoutes.delete("/", CartController.removeFromCart);
 
 module.exports = CartRoutes;
-

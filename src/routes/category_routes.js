@@ -6,4 +6,3 @@ CategoryRoutes.get("/:id", CategoryController.fetchCategoryById);
 CategoryRoutes.post("/", CategoryController.createCategory);
 
 module.exports = CategoryRoutes;
-

@@ -3,22 +3,32 @@ const ProductModel = require('./../models/product_model');
 const ProductController = {
     createProduct: async function(req, res) {
         try {
-            const productData = req.body;
-            const newProduct = new ProductModel(productData);
+            const { user, category, title, description, price, images } = req.body;
+            
+            // Assuming images is an array of image URLs
+            const newProduct = new ProductModel({
+                user,
+                category,
+                title,
+                description,
+                price,
+                images
+            });
+            
             await newProduct.save();
 
-            return res.json ({ success: true, data: newProduct, message: "Product created!"})
+            return res.json({ success: true, data: newProduct, message: "Product created!" });
         }
         catch(ex) {
             return res.json({ success: false, message: ex });
         }
     },
 
-    fetchAllProducts: async function(_req, res) {
+    fetchAllProducts: async function(req, res) {
         try {
-            const products = await ProductModel.find().sort({ createdOn: -1 });
+            const products = await ProductModel.find();
             return res.json({ success: true, data: products });
-        } 
+        }
         catch(ex) {
             return res.json({ success: false, message: ex });
         }
@@ -28,7 +38,7 @@ const ProductController = {
         try {
             const categoryId = req.params.id;
             const products = await ProductModel.find({ category: categoryId });
-            return res.json ({ success: true, data: products})
+            return res.json({ success: true, data: products });
         }
         catch(ex) {
             return res.json({ success: false, message: ex });
@@ -62,3 +72,4 @@ const ProductController = {
 };
 
 module.exports = ProductController;
+

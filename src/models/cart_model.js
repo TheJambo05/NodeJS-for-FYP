@@ -1,15 +1,15 @@
-const {Schema, model} = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const cartItemSchema = new Schema({
     product: { type: Schema.Types.ObjectId, ref: 'Product' },
     quantity: { type: Number, default: 1 }
 });
 
-const cartSchema = new Schema ({
+const cartSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     items: { type: [cartItemSchema], default: [] },
-    updatedOn: { type: Date},
-    createdOn: { type: Date}
+    updatedOn: { type: Date },
+    createdOn: { type: Date }
 });
 
 cartSchema.pre('save', function(next) {
@@ -27,7 +27,6 @@ cartSchema.pre(['update', 'findOneAndUpdate', 'updateOne'], function(next) {
 
     next();
 });
-
 
 const CartModel = model('Cart', cartSchema);
 

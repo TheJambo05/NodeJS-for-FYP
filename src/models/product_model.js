@@ -1,17 +1,17 @@
-const {Schema, model} = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const productSchema = new Schema ({
-    // user: { type: Schema.Types.ObjectId, ref: 'User', required: true},
-    category: { type: Schema.Types.ObjectId, ref: 'Category', required: true},
-    title: {type: String, required: [true, 'title is required']},
+const productSchema = new Schema({
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
+    title: { type: String, required: [true, 'title is required'] },
     description: { type: String, default: "" },
     price: { type: Number, required: true },
     images: { type: Array, default: [] },
-    updatedOn: { type: Date},
-    createdOn: { type: Date}
+    updatedOn: { type: Date },
+    createdOn: { type: Date }
 });
 
-productSchema.pre('save', function(next) {  
+productSchema.pre('save', function(next) {
     this.updatedOn = new Date();
     this.createdOn = new Date();
 
@@ -26,7 +26,6 @@ productSchema.pre(['update', 'findOneAndUpdate', 'updateOne'], function(next) {
 
     next();
 });
-
 
 const ProductModel = model('Product', productSchema);
 
