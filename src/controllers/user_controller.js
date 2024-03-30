@@ -57,7 +57,32 @@ const UserController = {
         catch(ex) {
             return res.json({ success: false, message: ex });
         }
+    },
+
+    fetchAllUsers: async function(req, res) {
+        try {
+            const users = await UserModel.find().sort({ name: 1 });
+            return res.json({ success: true, data: users });
+        }
+        catch(ex) {
+            return res.json({ success: false, message: ex });
+        }
+    },
+
+    removeUser: async function(req, res) {
+        try {
+            const userId = req.params.id;
+            const removedUser = await UserModel.findByIdAndDelete(userId);
+            if (!removedUser) {
+                return res.json({ success: false, message: "User not found!" });
+            }
+            return res.json({ success: true, data: removedUser, message: "User removed!" });
+        }
+        catch(ex) {
+            return res.json({ success: false, message: ex });
+        }
     }
+    
 
 };
 

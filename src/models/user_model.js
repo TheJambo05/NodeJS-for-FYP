@@ -4,12 +4,12 @@ const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
     id: { type: String, unique: true },
-    fullName: { type: String, default: "" },
+    fullName: { type: String, default: "", required: true },
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    phoneNumber: { type: String, default: "" },
-    address: { type: String, default: "" },
-    city: { type: String, default: "" },
+    phoneNumber: { type: String, default: "", required: true },
+    address: { type: String, default: "", required: true },
+    city: { type: String, default: "", required: true },
     profileProgress: { type: Number, default: 0 },
     updatedOn: { type: Date },
     createdOn: { type: Date }
