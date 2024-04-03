@@ -3,18 +3,8 @@ const ProductModel = require('./../models/product_model');
 const ProductController = {
     createProduct: async function(req, res) {
         try {
-            const { user, category, title, description, price, images } = req.body;
-            
-            // Assuming images is an array of image URLs
-            const newProduct = new ProductModel({
-                user,
-                category,
-                title,
-                description,
-                price,
-                images
-            });
-            
+            const productData = req.body;
+            const newProduct = new ProductModel(productData);
             await newProduct.save();
 
             return res.json({ success: true, data: newProduct, message: "Product created!" });
@@ -23,7 +13,7 @@ const ProductController = {
             return res.json({ success: false, message: ex });
         }
     },
-
+    
     fetchAllProducts: async function(req, res) {
         try {
             const products = await ProductModel.find();

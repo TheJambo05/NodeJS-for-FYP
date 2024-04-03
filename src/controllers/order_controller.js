@@ -42,10 +42,10 @@ const OrderController = {
         }
     },
 
-    fetchAllOrders: async function(_req, res) {
+    fetchAllOrders: async function(req, res) {
         try {
             const orders = await OrderModel.find().sort({ createdOn: -1 });
-            return res.json({ success: true, data: orderss });
+            return res.json({ success: true, data: orders });
         } 
         catch(ex) {
             return res.json({ success: false, message: ex });
