@@ -15,6 +15,10 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage: storage });
+// Define which field should be treated as a file
+const upload = multer({ 
+    storage: storage,
+    fileField: 'images' // Assuming 'images' is the field in your form data for file uploads
+});
 
 module.exports = upload;

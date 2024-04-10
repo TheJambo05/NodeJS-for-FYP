@@ -4,6 +4,9 @@ const ProductController = {
     createProduct: async function(req, res) {
         try {
             const productData = req.body;
+            const image = req.file ? req.file.filename: null;
+            productData.images = image;
+            console.log(productData);
             const newProduct = new ProductModel(productData);
             await newProduct.save();
 

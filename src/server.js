@@ -23,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false}));
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(cors());
+app.use("../uploads", express.static("uploads"));
 
 // // mysqldirect
 // con.connect(function(err) {
@@ -52,9 +53,9 @@ app.use("/api/cart", CartRoutes);
 const PORT = 5000;
 app.listen(PORT, () => console.log('Server started at PORT: 5000'));
 
-app.get("/", async (req, res) => {
-    res.json("Hello World")
-})
+// app.get("/", async (req, res) => {
+//     res.json("Hello World")
+// })
 
 // function addUser(email, password) {
 //     return new Promise((resolve, reject) => {

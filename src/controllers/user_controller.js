@@ -59,6 +59,57 @@ const UserController = {
         }
     },
 
+    changePassword: async function(req, res) {
+        try {
+            const userId = req.params.id;
+            const updateData = req.body;
+    
+            // Hash the password field if it's present in the updateData
+            if (updateData.password) {
+                updateData.password = await bcrypt.hash(updateData.password, 10);
+            }
+    
+            const updatedUser = await UserModel.findOneAndUpdate(
+                { _id: userId },
+                updateData,
+                { new: true }
+            );
+    
+            if (!updatedUser) {
+                throw "User not found!";
+            }
+    
+            return res.json({ success: true, data: updatedUser, message: "User updated!" });
+        } catch (ex) {
+            return res.json({ success: false, message: ex });
+        }
+    },
+
+    // changePassword: async function(req, res) {
+    //     try {
+    //         const userId = req.params.id;
+    //         const { oldPassword, newPassword } = req.body;
+    
+    //         const foundUser = await UserModel.findById(userId);
+    //         if (!foundUser) {
+    //             return res.status(404).json({ success: false, message: "User not found!" });
+    //         }
+    
+    //         const passwordsMatch = await bcrypt.compare(oldPassword, foundUser.password);
+    //         if (!passwordsMatch) {
+    //             return res.status(401).json({ success: false, message: "Incorrect old password!" });
+    //         }
+    
+    //         foundUser.password = newPassword;
+    //         await foundUser.save();
+    
+    //         return res.json({ success: true, message: "Password changed successfully!" });
+    //     } catch (error) {
+    //         return res.status(500).json({ success: false, message: error.message });
+    //     }
+    // },
+    
+
     fetchAllUsers: async function(req, res) {
         try {
             const users = await UserModel.find().sort({ name: 1 });
