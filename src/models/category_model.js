@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const categorySchema = new Schema({
-    title: { type: String, required: [true, 'title is required'] },
+    title: { type: String, required: [true, 'title is required'], unique: true },
     description: { type: String, default: "" },
     updatedOn: { type: Date },
     createdOn: { type: Date }

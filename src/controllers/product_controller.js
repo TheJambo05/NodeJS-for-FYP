@@ -1,6 +1,8 @@
 const ProductModel = require('./../models/product_model');
 
 const ProductController = {
+
+    ////Done
     createProduct: async function(req, res) {
         try {
             const productData = req.body;
@@ -17,6 +19,7 @@ const ProductController = {
         }
     },
     
+    ////Done
     fetchAllProducts: async function(req, res) {
         try {
             const products = await ProductModel.find();
@@ -27,16 +30,21 @@ const ProductController = {
         }
     },
 
+
+    ////Done
     fetchProductByCategory: async function(req, res) {
         try {
-            const categoryId = req.params.id;
-            const products = await ProductModel.find({ category: categoryId });
+            const category = req.params.id;
+            const products = await ProductModel.find({ category: category });
             return res.json({ success: true, data: products });
         }
         catch(ex) {
             return res.json({ success: false, message: ex });
         }
     },
+
+
+    
 
     fetchProductsByUserId: async function(req, res) {
         try {

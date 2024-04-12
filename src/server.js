@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose')
+
 // const mysql = require('mysql')
 // require('./model/sequelize')
 
@@ -23,13 +24,15 @@ app.use(bodyParser.urlencoded({ extended: false}));
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(cors());
-app.use("../uploads", express.static("uploads"));
+app.use("/api/uploads", express.static("uploads"));
+
 
 // // mysqldirect
 // con.connect(function(err) {
 //     if (err) throw err;
 //     console.log("Connected!");
 //   });
+
 
 
 // Routes of mongoose

@@ -10,12 +10,11 @@ const { Schema, model } = require('mongoose');
 // });
 
 const productSchema = new Schema({
-    // user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    // items: { type: [productItemSchema], default: [] },
-    category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    category: { type: String, required: true },
     title: { type: String, required: [true, 'title is required'] },
     description: { type: String, default: "" },
-    price: { type: String, required: true },
+    price: { type: Number, required: true },
     images: { type: String },
     updatedOn: { type: Date }, 
     createdOn: { type: Date }
