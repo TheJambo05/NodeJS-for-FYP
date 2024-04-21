@@ -15,7 +15,7 @@ const productSchema = new Schema({
     title: { type: String, required: [true, 'title is required'] },
     description: { type: String, default: "" },
     price: { type: Number, required: true },
-    images: { type: String },
+    images: { type: String, required: true },
     updatedOn: { type: Date }, 
     createdOn: { type: Date }
 });

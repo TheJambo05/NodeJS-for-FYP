@@ -3,7 +3,9 @@ const uuid = require('uuid');
 const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
+    role: { type: String, enum: ['admin', 'vendor', 'user'], default: 'user', required: true },
     id: { type: String, unique: true },
+   
     fullName: { type: String, default: "", required: true },
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
